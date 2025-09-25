@@ -16,11 +16,12 @@ header {
     justify-content: space-between;
     align-items: center;
     padding: 20px 50px;
-    background-color: white;
-    border-bottom: 1px solid #e0e0e0;
+    background-color: #1b3c1a;
+    border-bottom: 1px solid #2E6B5B;
     position: sticky;
     top: 0;
     z-index: 1000;
+    height: 80px;
 }
 
 .logo {
@@ -41,7 +42,7 @@ header {
 nav a {
     margin-left: 25px;
     text-decoration: none;
-    color: #1b3c1a;
+    color: #ffffff;
     font-weight: 500;
 }
 
@@ -54,13 +55,23 @@ nav a {
 }
 
 .hero-text {
+    display: flex;
     max-width: 50%;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .hero-text h2 {
     font-size: 2em;
     margin-bottom: 20px;
     color: #2E6B5B;
+}
+
+.hero .logo-variavel img{
+    max-width: 50%;
+    padding-bottom: 20px;
+    width: 50px;
+    height: 60px;
 }
 
 .hero-text p {
@@ -78,34 +89,60 @@ nav a {
 
 .btn-download {
     background-color: #2E6B5B;
-    color: white;
+    width: 150px;
+}
+
+.btn-download a{
+   text-decoration: none;
+   color: white;
 }
 
 .btn-info {
     background-color: white;
     color: #2E6B5B;
     border: 1px solid #1b3c1a;
+    width: 150px;
+}
+
+.botoes-hero{
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .hero-image img {
     max-width: 300px;
     border-radius: 20px;
+    padding-bottom: 75px;
+}
+
+.hero-content{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+    gap: 50px;
 }
 
 /* Features */
 .features {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    padding: 50px;
+    display: flex;
+    justify-content: center;
+    grid-template-columns: repeat(2, 3fr);
+    gap: 100px;
+    padding: 25px;
     text-align: center;
+}
+#funcionalidades01 .funcionalidades02{
+    display: flex;
 }
 
 .feature-card {
-    background-color: #f4fff9a8;
+    background-color: #e0f0e5;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+    width: 300px;
 }
 
 .feature-card h3 {
@@ -142,6 +179,18 @@ nav a {
     border-radius: 10px;
     cursor: pointer;
     font-weight: 500;
+}
+
+.faq a{
+    text-decoration: none;
+    color: #1b3c1a;
+}
+
+.alinha-icon{
+    width: 30px;
+    padding-right: 10px;
+    vertical-align: middle;
+    color: #1b3c1a;
 }
 
 /* Footer */
