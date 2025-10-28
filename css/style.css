@@ -262,29 +262,140 @@ footer a {
     text-decoration: underline;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
+@media (max-width: 480px) {
+    header {
+        flex-direction: column;
+        padding: 10px;
+        height: auto;
+    }
+
+    .logo img {
+        width: 120px;
+    }
+
+    nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    nav a {
+        margin: 5px 10px;
+        font-size: 0.9em;
+    }
+
     .hero {
         flex-direction: column;
+        padding: 30px 15px;
         text-align: center;
+    }
+
+    .hero-content {
+        flex-direction: column;
+        gap: 20px;
     }
 
     .hero-text {
         max-width: 100%;
     }
 
-    .features {
-        grid-template-columns: 1fr 1fr;
+    .hero-text h2 {
+        font-size: 1.5em;
     }
 
-    .screenshots {
+    .hero-image img {
+        max-width: 200px;
+        padding-bottom: 0;
+    }
+
+    .features {
         flex-direction: column;
         align-items: center;
+        padding: 20px;
+    }
+
+    .screenshots img {
+        width: 100px;
+    }
+
+    .faq {
+        padding: 30px 10px;
+        flex-direction: column;
+    }
+
+    footer {
+        font-size: 0.9em;
+        padding: 15px;
     }
 }
 
-@media (max-width: 500px) {
+/* === 481px a 720px === (celulares grandes e tablets) */
+@media (min-width: 481px) and (max-width: 720px) {
+    header {
+        padding: 15px 30px;
+    }
+
+    .hero {
+        flex-direction: column;
+        padding: 40px 25px;
+        text-align: center;
+    }
+
+    .hero-content {
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .hero-text {
+        max-width: 90%;
+    }
+
+    .hero-text h2 {
+        font-size: 1.8em;
+    }
+
+    .hero-image img {
+        max-width: 250px;
+    }
+
     .features {
-        grid-template-columns: 1fr;
+        justify-content: center;
+        gap: 30px;
+        padding: 25px;
+    }
+
+    .feature-card {
+        width: 250px;
+    }
+
+    .screenshots img {
+        width: 120px;
+    }
+
+    .faq {
+        padding: 40px;
+    }
+}
+
+/* === MAIOR QUE 720px === (desktop) */
+@media (min-width: 721px) {
+    .hero {
+        flex-direction: row;
+        text-align: left;
+    }
+
+    .hero-content {
+        flex-direction: row;
+        gap: 50px;
+    }
+
+    .features {
+        flex-wrap: nowrap;
+        justify-content: center;
+    }
+
+    .screenshots {
+        flex-direction: row;
     }
 }
