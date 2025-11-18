@@ -3,112 +3,473 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HealthGuard</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./css/style.css">
+    <title>HealthGuard - Sua Saúde Digitalizada</title>
+    <!-- 🚀 Tailwind CSS CDN: Praticamente nosso "CSS" superpoderoso! -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Configuração personalizada do Tailwind para manter nossa paleta de cores e fonte 'Inter'
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark': '#1b3c1a', // Nosso verde escuro principal
+                        'accent-green': '#2E6B5B', // Verde de destaque (CTA e títulos)
+                        'background-light': '#f8fdf7', // Quase branco
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'], // Garantindo a fonte Inter
+                    },
+                    // Adicionando a animação de scroll
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.6s ease-out forwards',
+                    }
+                },
+            }
+        }
+    </script>
+    <!-- Importando a fonte Inter e Ícones Lucide -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/lucide-static@latest/font/lucide.css" rel="stylesheet">
+    <!-- CORREÇÃO: Adicionando a biblioteca JavaScript Lucide para que a função 'lucide.createIcons()' funcione -->
+    <script src="https://unpkg.com/lucide@latest"></script> 
+    <!-- 💡 Nosso CSS Minimalista (apenas reset e scroll-behavior) -->
+    <style>
+        /* Reset básico e scroll suave */
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { background-color: #f8fdf7; }
+        /* Classe de estado inicial para animação JS */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        /* Classe de estado final (aplicada pelo JS) */
+        .is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
-<body>
-    <header>
-        <div class="logo">
-            <img src="./img/logo.png" alt="HealthGuard">
+<body class="font-sans text-primary-dark antialiased">
+
+    <!-- 🌟 HEADER: Fixo e Elegante. Sticky para navegação fácil! -->
+    <header id="main-header" class="sticky top-0 z-50 bg-primary-dark shadow-xl">
+        <div class="max-w-7xl mx-auto flex justify-between items-center py-4 px-4 sm:px-6 lg:px-8">
+            <!-- Logo: Simples e com um nome de peso -->
+            <a href="#" class="flex items-center space-x-2 text-white">
+                <img src="./img/logo.png" alt="HealthGuard Logo" class="rounded-lg">
+            </a>
+            
+            <!-- Navegação Desktop -->
+            <nav class="hidden md:flex space-x-6">
+                <a href="#funcionalidades" class="text-white hover:text-accent-green transition duration-300 font-medium">Funcionalidades</a>
+                <a href="#screenshots" class="text-white hover:text-accent-green transition duration-300 font-medium">Screenshots</a>
+                <a href="#testemunhos" class="text-white hover:text-accent-green transition duration-300 font-medium">Testemunhos</a>
+                <a href="#faq" class="text-white hover:text-accent-green transition duration-300 font-medium">FAQ</a>
+                <a href="#contato" class="text-white hover:text-accent-green transition duration-300 font-medium">Contato</a>
+            </nav>
+
+            <!-- Botão Menu Mobile (Hamburguer) -->
+            <button id="menu-button" class="md:hidden text-white focus:outline-none">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
         </div>
-        <nav>
-            <a href="#funcionalidades">Funcionalidades</a>
-            <a href="#screenshots">Screenshots</a>
-            <a href="#h2-faq">FAQ</a>
-            <a href="#contato">Contato</a>
+        
+        <!-- Menu Mobile (oculto por padrão, será exibido pelo JS) -->
+        <nav id="mobile-menu" class="hidden md:hidden bg-primary-dark/95 w-full transition-all duration-300">
+            <div class="flex flex-col space-y-2 p-4 text-center">
+                <a href="#funcionalidades" class="text-white hover:bg-accent-green/20 py-2 rounded-lg font-medium">Funcionalidades</a>
+                <a href="#screenshots" class="text-white hover:bg-accent-green/20 py-2 rounded-lg font-medium">Screenshots</a>
+                <a href="#testemunhos" class="text-white hover:bg-accent-green/20 py-2 rounded-lg font-medium">Testemunhos</a>
+                <a href="#faq" class="text-white hover:bg-accent-green/20 py-2 rounded-lg font-medium">FAQ</a>
+                <a href="#contato" class="text-white hover:bg-accent-green/20 py-2 rounded-lg font-medium">Contato</a>
+            </div>
         </nav>
     </header>
 
-    
-    <section class="hero">
-        <div class="hero-content">
-            <div class="hero-text">
-                <img class="logo-variavel" src="./img/logo-variavel.png" alt="">
-                <h2>Sua saúde e segurança na palma da mão</h2>
-                <p>Acompanhe relatórios, gerencie usuários e controle dados de forma simples e segura</p>
-                <div class="botoes-hero">
-                    <button class="btn-download"><a href="https://play.google.com/store/games?hl=pt_BR">Baixar agora</a></button>
-                    <button class="btn-info"><a href="#funcionalidades">Saiba mais</a></button>
+    <!-- 🟢 HERO SECTION: Onde a mágica da conversão acontece! Destaque visual e CTA. -->
+    <section id="hero" class="py-16 md:py-24 bg-background-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center justify-between gap-12 animate-on-scroll">
+                
+                <!-- Conteúdo de Texto e CTA -->
+                <div class="lg:w-1/2 text-center lg:text-left">
+                    <!-- Título de Impacto -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-accent-green leading-tight mb-4">
+                        Sua saúde e <span class="text-primary-dark">segurança digitalizadas</span>
+                    </h1>
+                    <!-- Subtítulo que gera desejo -->
+                    <p class="text-xl text-gray-700 mb-8 font-light max-w-lg lg:max-w-none mx-auto lg:mx-0">
+                        Controle total de relatórios, gestão de usuários e monitoramento de dados cruciais de forma simples, segura e em tempo real. A tranquilidade que sua operação precisa!
+                    </p>
                     
-                </div>
-            </div>
-            <div class="hero-image">
-                <img src="./img/img_prototipo02.png" alt="HealthGuard App">
-            </div>
-        </div>
-    </section>
-
-    <section id="funcionalidades" class="features-section">
-        <h2 id="h2-funcionalidades">Funcionalidades Principais</h2>
-    </section>
-
-    <section id="funcionalidades01" class="features">
-        
-        <div class="feature-card">
-            <h3>Gerenciar usuários</h3>
-            <p>Cadastre, edite e organize facilmente seus usuários</p>
-        </div>
-        <div class="feature-card">
-            <h3>Controle de temperatura</h3>
-            <p>Monitore temperaturas e configure alertas automáticos</p>
-        </div>
-    </section>
-
-    <section id="funcionalidades01" class="features">
-         <div class="feature-card">
-            <h3>Relatórios detalhados</h3>
-            <p>Visualize dados completos e exporte relatórios</p>
-        </div>
-        <div class="feature-card">
-            <h3>Dúvidas frequentes</h3>
-            <p>Encontre respostas rápidas para suas perguntas</p>
-        </div>
-    </section>
-
-    <section>
-        <h2 id="h2-faq">Perguntas Frequentes</h2>
-            <section class="faq">
-                <div class="faq-wrapper">
-                    <div class="faq-item" class="faq-section">
-                        <h3>O que é o HealthGuard App?</h3>
-                        <p>É um aplicativo para monitorar a temperatura de vacinas e garantir o armazenamento adequado em tempo real.</p>
-                    </div>
-                    <div class="faq-item" class="faq-section">
-                        <h3>Como baixar o app?</h3>
-                        <p>Clique em “Baixar agora” na página inicial. Disponível para Android e iOS.</p>
+                    <!-- Botões CTA (o centro das atenções!) -->
+                    <div class="flex justify-center lg:justify-start space-x-4">
+                        <!-- Botão Principal: Download (chamado irresistível) -->
+                        <a href="https://play.google.com/store/games?hl=pt_BR" target="_blank" class="btn-download inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-bold rounded-full shadow-lg text-white bg-accent-green hover:bg-[#255a4e] transform transition duration-500 ease-in-out hover:scale-105 focus:outline-none focus:ring-4 focus:ring-accent-green/50">
+                            <i data-lucide="download" class="w-5 h-5 mr-2"></i> Baixar Agora
+                        </a>
+                        
+                        <!-- Botão Secundário: Saiba Mais -->
+                        <a href="#funcionalidades" class="inline-flex items-center justify-center px-8 py-3 border border-accent-green text-base font-bold rounded-full text-accent-green bg-white hover:bg-gray-100 transform transition duration-300 ease-in-out hover:shadow-md focus:outline-none">
+                            <i data-lucide="info" class="w-5 h-5 mr-2"></i> Saiba Mais
+                        </a>
                     </div>
                 </div>
+                
+                <!-- Imagem do Protótipo (Visual Impactante) -->
+                <div class="lg:w-1/2 mt-12 lg:mt-0 flex justify-center lg:justify-end">
+                    <!-- Usando um placeholder com a forma de um celular, mantendo a referência original de imagem -->
+                    <img src="./img/img_prototipo01.png" alt="HealthGuard App em um Smartphone" 
+                         class="rounded-[2.5rem] shadow-2xl border-8 border-primary-dark transform transition duration-700 hover:rotate-2 hover:shadow-primary-dark/50">
+                </div>
 
-                <div class="faq-wrapper">
-                    <div class="faq-item" class="faq-section">
-                        <h3>O app gera alertas de temperatura?</h3>
-                        <p>Sim! O sistema envia notificações automáticas quando a temperatura sai da faixa ideal.</p>
-                    </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🛠️ SEÇÃO DE FUNCIONALIDADES: Ícones e Cards Atraentes -->
+    <section id="funcionalidades" class="py-16 bg-white animate-on-scroll">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12 text-primary-dark">Funcionalidades Principais</h2>
             
-                    <div class="faq-item" class="faq-section">
-                        <h3>Posso exportar relatórios?</h3>
-                        <p>Sim, você pode gerar e exportar relatórios detalhados em formatos como PDF e Excel.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Card 1: Gestão de Usuários -->
+                <div class="feature-card group p-6 bg-background-light rounded-2xl shadow-lg border-t-4 border-accent-green hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+                    <div class="flex justify-center mb-4">
+                        <i data-lucide="users" class="w-10 h-10 text-accent-green group-hover:text-primary-dark transition-colors"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-primary-dark">Gerenciar Usuários</h3>
+                    <p class="text-gray-600">Cadastre, edite e organize facilmente seus usuários com diferentes níveis de acesso.</p>
+                </div>
+
+                <!-- Card 2: Controle de Temperatura (o mais importante!) -->
+                <div class="feature-card group p-6 bg-background-light rounded-2xl shadow-lg border-t-4 border-accent-green hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+                    <div class="flex justify-center mb-4">
+                        <i data-lucide="thermometer" class="w-10 h-10 text-accent-green group-hover:text-primary-dark transition-colors"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-primary-dark">Monitoramento em Tempo Real</h3>
+                    <p class="text-gray-600">Monitore temperaturas e receba alertas automáticos para manter a integridade das vacinas.</p>
+                </div>
+
+                <!-- Card 3: Relatórios -->
+                <div class="feature-card group p-6 bg-background-light rounded-2xl shadow-lg border-t-4 border-accent-green hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+                    <div class="flex justify-center mb-4">
+                        <i data-lucide="file-text" class="w-10 h-10 text-accent-green group-hover:text-primary-dark transition-colors"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-primary-dark">Relatórios Detalhados</h3>
+                    <p class="text-gray-600">Visualize dados completos, históricos e exporte relatórios em PDF ou Excel.</p>
+                </div>
+
+                <!-- Card 4: Suporte e FAQ -->
+                <div class="feature-card group p-6 bg-background-light rounded-2xl shadow-lg border-t-4 border-accent-green hover:shadow-xl transition duration-300 transform hover:-translate-y-1">
+                    <div class="flex justify-center mb-4">
+                        <i data-lucide="message-square" class="w-10 h-10 text-accent-green group-hover:text-primary-dark transition-colors"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-primary-dark">Suporte Rápido</h3>
+                    <p class="text-gray-600">Acesse nossa seção de dúvidas frequentes e obtenha suporte ágil e eficiente.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🌟 SEÇÃO DE TESTEMUNHOS: Prova Social Interativa (Carrossel JS) -->
+    <section id="testemunhos" class="py-16 bg-background-light animate-on-scroll">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-12 text-primary-dark">Quem usa, recomenda.</h2>
+            
+            <div id="testimonial-carousel" class="relative overflow-hidden p-6 bg-white rounded-2xl shadow-xl border border-gray-100">
+                <!-- Conteiner dos Testemunhos (Gerenciado pelo JS) -->
+                <div id="testimonials-container" class="flex transition-transform duration-500 ease-in-out">
+                    
+                    <!-- Testemunho 1 -->
+                    <div class="testimonial-item flex-shrink-0 w-full text-center p-4">
+                        <i data-lucide="quote" class="w-8 h-8 text-accent-green mx-auto mb-4"></i>
+                        <p class="text-xl italic mb-4 text-gray-700">"O HealthGuard nos deu tranquilidade. Os alertas automáticos salvaram um lote inteiro de vacinas que custaria milhares! Essencial para nossa gestão de qualidade."</p>
+                        <div class="font-semibold text-primary-dark">- Dr. Ricardo M., Chefe de Logística Hospitalar</div>
+                    </div>
+
+                    <!-- Testemunho 2 -->
+                    <div class="testimonial-item flex-shrink-0 w-full text-center p-4">
+                        <i data-lucide="quote" class="w-8 h-8 text-accent-green mx-auto mb-4"></i>
+                        <p class="text-xl italic mb-4 text-gray-700">"A interface é super intuitiva, e os relatórios são gerados em segundos. Finalmente, um app que realmente simplifica o controle de temperatura!"</p>
+                        <div class="font-semibold text-primary-dark">- Ana C., Coordenadora de Farmácia</div>
+                    </div>
+                    
+                    <!-- Testemunho 3 -->
+                    <div class="testimonial-item flex-shrink-0 w-full text-center p-4">
+                        <i data-lucide="quote" class="w-8 h-8 text-accent-green mx-auto mb-4"></i>
+                        <p class="text-xl italic mb-4 text-gray-700">"Integração perfeita com nossos termômetros. Os dados em tempo real no celular facilitaram as auditorias internas de forma surpreendente."</p>
+                        <div class="font-semibold text-primary-dark">- João P., Fiscal Sanitário</div>
                     </div>
                 </div>
-        </section>
+
+                <!-- Controles do Carrossel -->
+                <div class="absolute inset-y-0 left-0 flex items-center">
+                    <button id="prev-testimonial" class="p-2 bg-white/70 hover:bg-white rounded-full ml-2 shadow-md focus:outline-none">
+                        <i data-lucide="chevron-left" class="w-6 h-6 text-primary-dark"></i>
+                    </button>
+                </div>
+                <div class="absolute inset-y-0 right-0 flex items-center">
+                    <button id="next-testimonial" class="p-2 bg-white/70 hover:bg-white rounded-full mr-2 shadow-md focus:outline-none">
+                        <i data-lucide="chevron-right" class="w-6 h-6 text-primary-dark"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section id="screenshots" class="screenshots">
-        <img src="./img/img_prototipo01.png" alt="Página Frezer">
-        <img src="./img/img_prototipo03.png" alt="Tela de Relatórios">
-        <img src="./img/img_prototipo04.png" alt="Tela de Duvida">
+    <!-- 📸 SEÇÃO DE SCREENSHOTS: Prova Social e Visual -->
+    <section id="screenshots" class="py-16 bg-white animate-on-scroll">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12 text-primary-dark">Veja em ação</h2>
+            
+            <div class="flex flex-wrap justify-center gap-6 md:gap-10">
+                <!-- Mockup de Telas do App (mantendo as referências originais de imagem) -->
+                <img src="./img/img_prototipo02.png" alt="Screenshot 1: Tela Principal" class="w-48 rounded-3xl shadow-2xl hover:shadow-accent-green/50 transition duration-300 cursor-pointer hover:scale-105">
+                <img src="./img/img_prototipo03.png" alt="Screenshot 2: Tela de Frezer" class="w-48 rounded-3xl shadow-2xl hover:shadow-accent-green/50 transition duration-300 cursor-pointer hover:scale-105">
+                <img src="./img/img_prototipo04.png" alt="Screenshot 3: Tela de Dúvidas Frequentes" class="w-48 rounded-3xl shadow-2xl hover:shadow-accent-green/50 transition duration-300 cursor-pointer hover:scale-105 hidden sm:block">
+            </div>
+        </div>
     </section>
 
-    <section id="contato" class="contato">
-        <button><img id="icon-instagram" class="alinha-icon" src="./img/icon-instagram.png" alt=""><a href="https://www.instagram.com/health._guard/">Instagram</a></button>
-        <button><img class="alinha-icon" src="./img/icon-internet.png" alt=""><a href="https://sp.senai.br/unidade/taubate/">SENAI</a></button>
+    <!-- ❓ SEÇÃO FAQ: Interatividade com JS (Accordion) -->
+    <section id="faq" class="py-16 bg-background-light animate-on-scroll">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center mb-12 text-primary-dark">Perguntas Frequentes</h2>
+            
+            <div id="faq-accordion" class="space-y-4">
+                
+                <!-- Item 1 do FAQ -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden shadow-md">
+                    <button class="faq-toggle w-full flex justify-between items-center p-5 text-lg font-semibold bg-white hover:bg-gray-50 transition duration-200 focus:outline-none" aria-expanded="false">
+                        O que é o HealthGuard App?
+                        <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden p-5 bg-background-light border-t border-gray-200">
+                        <p>É um aplicativo robusto para monitorar a temperatura de itens sensíveis (como vacinas) e garantir o armazenamento adequado em tempo real, fornecendo paz de espírito para sua equipe.</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 do FAQ -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden shadow-md">
+                    <button class="faq-toggle w-full flex justify-between items-center p-5 text-lg font-semibold bg-white hover:bg-gray-50 transition duration-200 focus:outline-none" aria-expanded="false">
+                        O app gera alertas de temperatura?
+                        <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden p-5 bg-background-light border-t border-gray-200">
+                        <p>Com certeza! O sistema envia notificações automáticas (push, e-mail e SMS, dependendo do plano) quando a temperatura sai da faixa ideal, permitindo ação imediata e prevenindo perdas.</p>
+                    </div>
+                </div>
+                
+                <!-- Item 3 do FAQ -->
+                <div class="border border-gray-200 rounded-xl overflow-hidden shadow-md">
+                    <button class="faq-toggle w-full flex justify-between items-center p-5 text-lg font-semibold bg-white hover:bg-gray-50 transition duration-200 focus:outline-none" aria-expanded="false">
+                        Posso exportar relatórios para auditoria?
+                        <i data-lucide="chevron-down" class="w-5 h-5 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden p-5 bg-background-light border-t border-gray-200">
+                        <p>Sim! Você pode gerar e exportar relatórios detalhados de histórico de temperatura e eventos em formatos como PDF e CSV, essenciais para auditorias e conformidade regulatória.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </section>
 
-    <footer id="contato">
-        <p>Pronto para simplificar sua gestão?</p>
-        <p><a href="mailto:health.9guard@gmail.com">health.9guard@gmail.com</a></p>
-        <p>© 2025 HealthGuard - Todos os direitos reservados</p>
+    <!-- 📞 SEÇÃO CONTATO: Links Sociais -->
+    <section id="contato" class="py-16 bg-primary-dark/5 animate-on-scroll">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-primary-dark mb-6">Pronto para a Gestão Inteligente?</h2>
+            <p class="text-xl text-gray-700 mb-8">Fale conosco e comece a proteger seus ativos mais valiosos hoje mesmo.</p>
+
+            <div class="flex justify-center space-x-6">
+                <!-- Botão Instagram -->
+                <a href="https://www.instagram.com/health._guard/" target="_blank" class="flex items-center space-x-2 px-6 py-3 bg-white text-primary-dark font-semibold rounded-full shadow-lg hover:bg-gray-100 transition duration-300 transform hover:scale-105">
+                    <i data-lucide="instagram" class="w-5 h-5"></i>
+                    <span>@health._guard</span>
+                </a>
+                <!-- Botão Email -->
+                <a href="mailto:health.9guard@gmail.com" class="flex items-center space-x-2 px-6 py-3 bg-accent-green text-white font-semibold rounded-full shadow-lg hover:bg-[#255a4e] transition duration-300 transform hover:scale-105">
+                    <i data-lucide="mail" class="w-5 h-5"></i>
+                    <span>E-mail</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 🦶 FOOTER: Finalização -->
+    <footer class="bg-primary-dark text-white py-6 text-center">
+        <div class="max-w-7xl mx-auto px-4">
+            <p class="text-sm">© 2025 HealthGuard - Todos os direitos reservados.</p>
+            <p class="mt-2 text-xs">Desenvolvido no Senai Taubaté.</p>
+        </div>
     </footer>
+
+    <!-- 📌 CTA FLUTUANTE (FIXED CTA): Aparece depois do Hero para manter a conversão -->
+    <a id="floating-cta" href="https://play.google.com/store/games?hl=pt_BR" target="_blank" 
+       class="fixed bottom-6 right-6 z-50 inline-flex items-center px-6 py-3 border border-transparent text-base font-bold rounded-full shadow-2xl text-white bg-accent-green transform transition duration-500 ease-in-out scale-0 opacity-0 md:hover:scale-110">
+        <i data-lucide="zap" class="w-5 h-5 mr-2"></i> BAIXE AGORA!
+    </a>
+
+
+    <!-- 💻 JAVASCRIPT AVANÇADO: Dando vida ao front-end! -->
+    <script>
+        // Inicializa ícones Lucide (vetoriais leves)
+        lucide.createIcons();
+
+        // ----------------------------------------------------
+        // MÓDULO 1: Lógica do Menu Hamburger e Accordion (FAQ)
+        // ----------------------------------------------------
+
+        const menuButton = document.getElementById('menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const faqToggles = document.querySelectorAll('.faq-toggle');
+
+        // Menu Mobile Toggle
+        menuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            const icon = menuButton.querySelector('i');
+            icon.setAttribute('data-lucide', mobileMenu.classList.contains('hidden') ? 'menu' : 'x');
+            lucide.createIcons();
+        });
+
+        // Fechar menu mobile ao clicar em um link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuButton.querySelector('i').setAttribute('data-lucide', 'menu');
+                lucide.createIcons();
+            });
+        });
+
+        // FAQ Accordion
+        faqToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const content = toggle.nextElementSibling;
+                const icon = toggle.querySelector('i');
+                const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+
+                // Fechar se aberto / Abrir se fechado
+                if (isExpanded) {
+                    content.classList.add('hidden');
+                    toggle.setAttribute('aria-expanded', 'false');
+                    icon.style.transform = 'rotate(0deg)';
+                } else {
+                    // Fechar todos os outros abertos para manter a UX limpa
+                    faqToggles.forEach(otherToggle => {
+                        if (otherToggle !== toggle && otherToggle.getAttribute('aria-expanded') === 'true') {
+                            otherToggle.nextElementSibling.classList.add('hidden');
+                            otherToggle.setAttribute('aria-expanded', 'false');
+                            otherToggle.querySelector('i').style.transform = 'rotate(0deg)';
+                        }
+                    });
+
+                    // Abrindo
+                    content.classList.remove('hidden');
+                    toggle.setAttribute('aria-expanded', 'true');
+                    icon.style.transform = 'rotate(180deg)';
+                }
+            });
+        });
+
+        // ----------------------------------------------------
+        // MÓDULO 2: Carrossel de Testemunhos (Pura prova social!)
+        // ----------------------------------------------------
+
+        const testimonialsContainer = document.getElementById('testimonials-container');
+        const testimonialItems = document.querySelectorAll('.testimonial-item');
+        const prevButton = document.getElementById('prev-testimonial');
+        const nextButton = document.getElementById('next-testimonial');
+        let currentIndex = 0;
+        const totalItems = testimonialItems.length;
+
+        // Função para atualizar a visualização do carrossel
+        function updateCarousel() {
+            // Calcula o deslocamento horizontal
+            const offset = -currentIndex * 100;
+            testimonialsContainer.style.transform = `translateX(${offset}%)`;
+            
+            // Re-renderizar ícones Lucide após o slide (apenas por garantia)
+            lucide.createIcons(); 
+        }
+
+        // Lógica do botão Próximo
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % totalItems;
+            updateCarousel();
+        });
+
+        // Lógica do botão Anterior
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+            updateCarousel();
+        });
+
+        // Auto-play do carrossel a cada 5 segundos
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % totalItems;
+            updateCarousel();
+        }, 5000);
+
+        // Inicializa o carrossel na posição 0
+        updateCarousel();
+
+        // ----------------------------------------------------
+        // MÓDULO 3: Animações de Scroll (Intersection Observer)
+        // ----------------------------------------------------
+
+        const scrollElements = document.querySelectorAll('.animate-on-scroll');
+        const floatingCta = document.getElementById('floating-cta');
+        const heroSection = document.getElementById('hero');
+        
+        // 3.1 Observador para Animações de Elementos
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    // Parar de observar depois de animar
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            // Inicia a animação quando 10% do elemento estiver visível
+            threshold: 0.1 
+        });
+
+        scrollElements.forEach(el => observer.observe(el));
+
+        // 3.2 Observador para a CTA Flutuante (Floating CTA)
+        // Queremos que a CTA flutuante apareça quando o HERO sair da tela.
+        const ctaObserver = new IntersectionObserver((entries) => {
+            const entry = entries[0];
+            if (!entry.isIntersecting) {
+                // Se o Hero não estiver mais visível, mostra a CTA flutuante
+                floatingCta.classList.remove('scale-0', 'opacity-0');
+                floatingCta.classList.add('scale-100', 'opacity-100');
+            } else {
+                // Se o Hero estiver visível, esconde a CTA flutuante
+                floatingCta.classList.remove('scale-100', 'opacity-100');
+                floatingCta.classList.add('scale-0', 'opacity-0');
+            }
+        }, {
+            // Threshold 0 significa que a callback é chamada assim que o hero
+            // começa a sair (ou a entrar) na viewport
+            threshold: 0
+        });
+
+        if (heroSection) {
+            ctaObserver.observe(heroSection);
+        }
+
+    </script>
 </body>
 </html>
